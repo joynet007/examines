@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta charset="UTF-8"/>
+    <title>API接口服务系统</title>
+    <!--<link rel="stylesheet" type="text/css" th:href="@{/jquery-easyui-1.5.2/themes/default/easyui.css}" />-->
+    <!--<link rel="stylesheet" type="text/css" th:href="@{/jquery-easyui-1.5.2/themes/icon.css}" />-->
+
+    <script type="text/javascript" th:src="@{/jquery-easyui-1.5.2/jquery.min.js}"></script>
+    <!--<script type="text/javascript" th:src="@{/jquery-easyui-1.5.2/jquery.easyui.min.js}"></script>-->
+</head>
+<body>
+<h2>欢迎您使用API接口系统</h2>
+<div >
+    <p style="font-size:14px">请您登陆</p>
+    <form id="loginform"  th:action="@{/user/register}" method="post">
+        <fieldset>
+            <div>
+                <label for="name">登录用户名:</label>
+                <input type="text" name="userName" maxlength="50" lang="30" />
+            </div>
+            <br/>
+            <div>
+                <label for="email">密码:</label>
+                <input type="text" name="userPassword" maxlength="50" lang="30" />
+            </div>
+            <br/>
+            <div>
+                <label for="email">真实姓名:</label>
+                <input type="text" name="realName" maxlength="50" lang="30" />
+            </div>
+            <br/>
+            <div>
+                <button type="submit" >注册</button>
+            </div>
+        </fieldset>
+    </form>
+</div>
+
+</body>
+
+<script>
+
+
+
+</script>
+
+
+</html>

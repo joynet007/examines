@@ -1,0 +1,61 @@
+<script th:src="@{/js/choicequestion/choicequestion.js}"></script>
+
+<div id="p" class="easyui-panel" title="选择信息" style="width: auto;height: 80px;padding-top: 10px;padding-left: 20px;">
+    请选择科目：
+    <input id="cc1_list" class="easyui-combobox" style="width: auto" name="sublevel1"
+           data-options="valueField: 'subjectid',textField: 'subjectname',
+                        url: '/web/subject/findSubjectBypid/rootid',
+                        onSelect: function(rec){
+                            var url = '/web/subject/findSubjectBypid/'+rec.subjectid;
+
+                            $('#cc2_list').combobox('clear');
+                            $('#cc3_list').combobox('clear');
+
+                            $('#cc2_list').combobox('reload', url);
+                        },onLoadSuccess:function(){
+                            $('#cc1_list').combobox('selectIndex',1);
+                        },panelHeight:'auto' "
+    />
+    <input id="cc2_list" class="easyui-combobox" style="width: auto" name="sublevel2"
+           data-options="valueField:'subjectid',textField:'subjectname',
+                        onSelect:function(rec){
+                            var url = '/web/subject/findSubjectBypid/'+rec.subjectid;
+                            $('#cc3_list').combobox('reload', url);
+                            $('#cc3_list').combobox('clear');
+                        },panelHeight:'auto' "
+    />
+    <input id="cc3_list" class="easyui-combobox" style="width: auto" name="sublevel3"
+           data-options="valueField:'subjectid',textField:'subjectname'" >
+    </input>
+    请选择年份：
+    <input id="moniyear" class="easyui-combobox" style="width: 180px" name="moniname" data-options="
+    valueField: 'moniid',
+    textField: 'moniname',
+    url: '/web/moniyear/viewlist'"
+    >
+    </input>
+    <a href="javascript:choicequestion.tableload();" class="easyui-linkbutton" style="margin-left: 10px" iconCls="icon-search">查询</a>
+    <!--<a href="javascript:addq();" class="easyui-linkbutton" style="margin-left: 10px" iconCls="icon-add">添加</a>-->
+</div>
+
+<table id="choicequestionlist" class="easyui-datagrid" title="科目列表" style="width: auto;height:auto;"
+       data-options="rownumbers:true,singleSelect:true,url:'/web/choicequestion/viewlist',method:'get',
+       toolbar:choicequestion.toolbar,queryParams:{pageNumber:1,pageSize:20,moniyear:'',
+                    sublevel1: '',
+                    sublevel2: '',
+                    sublevel3: ''}">
+    <thead>
+    <tr>
+        <th data-options="field:'questionid',width:80,hidden:true">编码</th>
+        <th data-options="field:'name',width:500">题目名称</th>
+        <th data-options="field:'moniname',width:100">年份</th>
+        <th data-options="field:'sublevel1',width:100">科目</th>
+        <th data-options="field:'mcode',width:100">序号号</th>
+        <th data-options="field:'ctime',width:140,formatter:baseutil.formatter_time">时间</th>
+    </tr>
+    </thead>
+</table>
+<div id="choicequestion_pagination" style="background:#efefef;border:1px solid #ccc;"></div>
+
+<script th:inline="javascript">
+</script>
