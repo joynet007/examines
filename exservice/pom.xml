@@ -56,8 +56,6 @@
 		</dependency>
 
 
-
-
 		<dependency>
 			<groupId>com.examines</groupId>
 			<artifactId>comm</artifactId>

@@ -1,0 +1,146 @@
+<form id="hisquestionEditForm" method="post" action= "/hisquestion/update" >
+    <table>
+        <tr>
+            <td><strong>所属考年：</strong></td>
+            <td>
+                <input type="text" name="questionid" hidden="true"  th:value="${cq.questionid}" />
+                <span th:text="${moniname}" />
+                <strong>所属科目:</strong>
+                <span th:text="${subjectName}" />
+                <input type="text" th:value="${subjectid}" name="subjectid" hidden="true" readonly="true"/>
+            </td>
+        </tr>
+
+        <tr>
+            <td>题目描述：</td>
+            <td >
+                <input class="easyui-textbox" name="choicequestionname" th:value="${cq.name}" data-options="multiline:true" style="width:800px;height:100px"></input>
+            </td>
+        </tr>
+        <tr>
+            <td>答案A：</td>
+            <td >
+                <input class="easyui-textbox" name="answera" th:value="${cq.answera}" data-options="multiline:true" style="width:800px;height:40px"></input>
+            </td>
+        </tr>
+        <tr>
+            <td>答案B：</td>
+            <td >
+                <input class="easyui-textbox" name="answerb" th:value="${cq.answerb}"  data-options="multiline:true" style="width:800px;height:40px"></input>
+            </td>
+        </tr>
+        <tr>
+            <td>答案C：</td>
+            <td >
+                <input class="easyui-textbox" name="answerc" th:value="${cq.answerc}"  data-options="multiline:true" style="width:800px;height:40px"></input>
+            </td>
+        </tr>
+        <tr>
+            <td>答案D：</td>
+            <td >
+                <input class="easyui-textbox" name="answerd" th:value="${cq.answerd}"  data-options="multiline:true" style="width:800px;height:40px"></input>
+            </td>
+        </tr>
+        <tr>
+            <td>参考答案：</td>
+            <td >
+                <span class="radioSpan">
+                    <input th:field="${cq.realanswer}" type="radio" name="realanswer" value="A">A</input>
+                    <input th:field="${cq.realanswer}" type="radio" name="realanswer" value="B">B</input>
+                    <input th:field="${cq.realanswer}" type="radio" name="realanswer" value="C">C</input>
+                    <input th:field="${cq.realanswer}" type="radio" name="realanswer" value="D">D</input>
+            </span>
+            </td>
+        </tr>
+
+        <tr>
+            <td>习题详解：</td>
+            <td >
+                <input class="easyui-textbox" name="explain" th:value="${ce.mexplain}"  data-options="multiline:true" style="width:800px;height:100px"></input>
+            </td>
+        </tr>
+    </table>
+</form>
+<div style="text-align:center;padding:5px">
+    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm()">保存</a>
+</div>
+
+
+<script th:inline="javascript">
+    <!--
+
+    function submitForm(){
+        var choicequestionname=$("input[name=choicequestionname]");
+        var answera=$("input[name=answera]");
+        var answerb=$("input[name=answerb]");
+        var answerc=$("input[name=answerc]");
+        var answerd=$("input[name=answerd]");
+        var realanswer=$("input[name=realanswer]");
+
+        $('#hisquestionEditForm').form('submit',{
+            url:systemNamePath+"/hisquestion/update",
+            onSubmit:function(){
+
+
+                if(choicequestionname.val() == null || choicequestionname.val() == '')
+                {
+                    $.messager.alert('提示','题目描述不能为空！');
+                    choicequestionname.focus();
+                    return false;
+                }
+
+                if(answera.val() == null || answera.val() == '')
+                {
+                    $.messager.alert('提示','请填写，答案A！');
+                    answera.focus();
+                    return false;
+                }
+
+                if(answerb.val() == null || answerb.val() == '')
+                {
+                    $.messager.alert('提示','请填写，答案B！');
+                    answerb.focus();
+                    return false;
+                }
+
+                if(answerc.val() == null || answerc.val() == '')
+                {
+                    $.messager.alert('提示','请填写，答案C！');
+                    answerc.focus();
+                    return false;
+                }
+
+                if(answerd.val() == null || answerd.val() == '')
+                {
+                    $.messager.alert('提示','请填写，答案D！');
+                    answerd.focus();
+                    return false;
+                }
+
+                if($('input:radio:checked').val() == null || $('input:radio:checked').val() == '')
+                {
+                    $.messager.alert('提示','请填写正确答案！');
+                    return false;
+                }
+
+//                return false;
+
+
+            },
+            success:function(data){
+                var obj = baseutil.toJSON(data);
+                if(obj.code == baseutil.mess_succ ){
+                    $("#hisquestion_win_edit").dialog('destroy');
+                    $('#hisquestionlist').datagrid('load');
+                }else{
+                    $.messager.alert('提示',obj.mdesc);
+                    $("#hisquestion_win_edit").dialog('destroy');
+                }
+
+            }
+        });
+
+
+    }
+    -->
+</script>

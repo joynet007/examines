@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: commons-codec:commons-codec:unknown">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/commons-codec/commons-codec/unknown/commons-codec-unknown.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/commons-codec/commons-codec/unknown/commons-codec-unknown-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/commons-codec/commons-codec/unknown/commons-codec-unknown-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

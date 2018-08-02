@@ -3,7 +3,6 @@ package com.exservice.service.impl;
 import com.exservice.dao.UserInfoMapper;
 import com.exservice.pojo.po.UserInfo;
 import com.exservice.service.UserInfoManager;
-import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;

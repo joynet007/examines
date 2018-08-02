@@ -1,9 +1,12 @@
 package com.exservice.dao.repository;
 
+import com.excomm.GsonUtil;
 import com.exservice.dao.repository.annotation.TableId;
 import com.exservice.dao.repository.annotation.TableName;
 import org.apache.commons.beanutils.BeanUtils;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -13,6 +16,7 @@ import java.util.*;
 /**
  * Created by liang on 2018/7/8.
  */
+@Component
 public class CrudRepositoryImpl<T> implements CrudRepository<T> {
 
     private StringBuffer save_ziduan ;
@@ -27,30 +31,37 @@ public class CrudRepositoryImpl<T> implements CrudRepository<T> {
     private String tableName = "";
     private String tableID = "";
 
-    private T t;
+    public static final String SSTTRR = "class java.lang.String";
 
+
+    @Resource
+    private CrudConnection crudConnection;
 
     /**
      *
      * @throws SQLException
      */
-    public void save() {
+    public void save(T t) {
 
         autoPrepare(t);
 
         String sql = "insert into "+tableName+"("+save_ziduan+")values ("+save_wenhao+")";
-        System.out.print(sql);
+        System.out.println(sql);
 
-        Connection connection = CrudConnection.build().getConnection();
+        Connection connection =crudConnection.getConnection();
         PreparedStatement ps=null;
         try {
             ps = connection.prepareStatement(sql);
+
+            String str = GsonUtil.objTOjson(list);
+
+            System.out.println(str+"---sdfsfsdfs--");
 
             for(int i=0;i<list.size();i++)
             {
                 SqlObject sqlObject = (SqlObject) list.get(i);
                 int index = i + 1;
-                if(sqlObject.getIndexType().equals("String")){
+                if(sqlObject.getIndexType().equals(SSTTRR)){
                     ps.setString(index, (String) sqlObject.getIndexValue());
                 }else if(sqlObject.getIndexType().equals("Long")){
                     ps.setLong(index, (Long) sqlObject.getIndexValue());
@@ -83,14 +94,14 @@ public class CrudRepositoryImpl<T> implements CrudRepository<T> {
      *
      * @throws SQLException
      */
-    public void delete() {
+    public void delete(T t) {
 
         autoPrepare(t);
 
         String sql = "delete from "+tableName+" where "+tableID+ "= ?";
-        System.out.print(sql);
+        System.out.println(sql);
 
-        Connection connection = CrudConnection.build().getConnection();
+        Connection connection = crudConnection.getConnection();
         PreparedStatement ps=null;
         try {
             ps = connection.prepareStatement(sql);
@@ -99,7 +110,7 @@ public class CrudRepositoryImpl<T> implements CrudRepository<T> {
             {
                 SqlObject sqlObject = (SqlObject) list.get(i);
                 int index = i + 1;
-                if(sqlObject.getIndexType().equals("String")){
+                if(sqlObject.getIndexType().equals(SSTTRR)){
                     ps.setString(index, (String) sqlObject.getIndexValue());
                 }else if(sqlObject.getIndexType().equals("Long")){
                     ps.setLong(index, (Long) sqlObject.getIndexValue());
@@ -136,14 +147,14 @@ public class CrudRepositoryImpl<T> implements CrudRepository<T> {
     /**
      * @throws SQLException
      */
-    public void update(){
+    public void update(T t){
 
         autoPrepare(t);
 
         String sql = "update "+tableName +" set "+ updateZiduan +" where "+tableID+ "= ?";
-        System.out.print(sql);
+        System.out.println(sql);
 
-        Connection connection = CrudConnection.build().getConnection();
+        Connection connection = crudConnection.getConnection();
         PreparedStatement ps=null;
         try {
             ps = connection.prepareStatement(sql);
@@ -152,7 +163,7 @@ public class CrudRepositoryImpl<T> implements CrudRepository<T> {
             {
                 SqlObject sqlObject = (SqlObject) list.get(i);
                 int index = i + 1;
-                if(sqlObject.getIndexType().equals("String")){
+                if(sqlObject.getIndexType().equals(SSTTRR)){
                     ps.setString(index, (String) sqlObject.getIndexValue());
 
                     if(sqlObject.getIndexName().equals(tableID)){
@@ -200,13 +211,13 @@ public class CrudRepositoryImpl<T> implements CrudRepository<T> {
     }
 
 
-    public T findOne()  {
+    public T findOne(T t)  {
         autoPrepare(t);
 
         String sql = "select * from "+tableName+" where "+tableID+ "= ?";
-        System.out.print(sql);
+        System.out.println(sql);
 
-        Connection connection = CrudConnection.build().getConnection();
+        Connection connection = crudConnection.getConnection();
 
         Statement st = null;
         ResultSet rs = null;
@@ -229,7 +240,7 @@ public class CrudRepositoryImpl<T> implements CrudRepository<T> {
                     Object value = null;
                     field.getType().toString();
 
-                    if(  field.getType().toString().equals("String")){
+                    if(  field.getType().toString().equals(SSTTRR)){
                         value = rs.getString(name);
                     }else if( field.getType().toString().equals("Long")){
                         value = rs.getLong(name);
@@ -327,7 +338,7 @@ public class CrudRepositoryImpl<T> implements CrudRepository<T> {
             sqlObject.setIndexValue(value);
             sqlObject.setIndexType(field.getType()+"");
 
-            System.out.print("sqlObject==============="+sqlObject.toString());
+            System.out.println("sqlObject==============="+sqlObject.toString());
 
             list.add(sqlObject);
 
@@ -351,15 +362,22 @@ public class CrudRepositoryImpl<T> implements CrudRepository<T> {
      * @return
      */
     public void autoTableID(Class cls){
-        TableId tableidAn = (TableId)cls.getAnnotation(TableId.class);
-        tableID = tableidAn.value();
+        Field[] fields = cls.getDeclaredFields();
+        for(int i=0;i<fields.length;i++){
+            Field f = fields[i];
+            TableId tableidAn = (TableId)f.getAnnotation(TableId.class);
+            if(tableidAn!=null){
+                tableID = tableidAn.value();
+            }
+        }
     }
 
 
 
-    public static CrudDao build(){
-        CrudDao crudDao = new CrudDao();
-        return  crudDao;
+    public static CrudRepositoryImpl build()
+    {
+        CrudRepositoryImpl crudRepositoryImpl = new CrudRepositoryImpl();
+        return  crudRepositoryImpl;
     }
 
 
