@@ -1,7 +1,6 @@
 package com.excomm.safety;
 
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
+import org.apache.commons.codec.binary.Base64;
 
 import java.security.*;
 
@@ -45,9 +44,8 @@ public class DigitalSignatureMain {
         signature.initSign(privateKey);
         signature.update(contentBytes);
         byte[] signs = signature.sign();
-//      return Base64.encodeBase64String(signs);
+      return Base64.encodeBase64String(signs);
 
-        return (new BASE64Encoder()).encodeBuffer(signs);
     }
 
     //对用md5和RSA私钥生成的数字签名进行验证
@@ -56,7 +54,8 @@ public class DigitalSignatureMain {
         Signature signature = Signature.getInstance("MD5withRSA");
         signature.initVerify(publicKey);
         signature.update(contentBytes);
-        return signature.verify( (new BASE64Decoder()).decodeBuffer(sign));
+        return signature.verify( Base64.decodeBase64(sign));
+
     }
 
     //用sha1生成内容摘要，再用RSA的私钥加密，进而生成数字签名
@@ -66,7 +65,7 @@ public class DigitalSignatureMain {
         signature.initSign(privateKey);
         signature.update(contentBytes);
         byte[] signs = signature.sign();
-        return (new BASE64Encoder()).encodeBuffer(signs);
+        return Base64.encodeBase64String(signs);
     }
 
     //对用md5和RSA私钥生成的数字签名进行验证
@@ -75,6 +74,6 @@ public class DigitalSignatureMain {
         Signature signature = Signature.getInstance("SHA1withRSA");
         signature.initVerify(publicKey);
         signature.update(contentBytes);
-        return signature.verify((new BASE64Decoder()).decodeBuffer(sign));
+        return signature.verify( Base64.decodeBase64(sign));
     }
 }

@@ -1,5 +1,7 @@
 package com.excomm.safety;
 
+import org.apache.commons.codec.binary.Base64;
+
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
@@ -32,7 +34,10 @@ public class DesSecrte {
             System.out.println(deskey.toString());
             c1.init(Cipher.ENCRYPT_MODE, deskey);
             // 加密，并把字节数组编码成字符串
-            encryptedData = new sun.misc.BASE64Encoder().encode(c1.doFinal(data.getBytes(charset)));
+//            encryptedData = new sun.misc.BASE64Encoder().encode(c1.doFinal(data.getBytes(charset)));
+
+            encryptedData =  Base64.encodeBase64String(c1.doFinal(data.getBytes(charset)));
+
         } catch (Exception e) {
 //            log.error("加密错误，错误信息：", e);
             throw new RuntimeException("加密错误，错误信息：", e);
@@ -56,7 +61,8 @@ public class DesSecrte {
             Cipher c1 = Cipher.getInstance(algorithm);
             c1.init(Cipher.DECRYPT_MODE, deskey);
             // 把字符串解码为字节数组，并解密
-            decryptedData = new String(c1.doFinal(new sun.misc.BASE64Decoder().decodeBuffer(cryptData)), charset);
+            decryptedData = new String(c1.doFinal(Base64.decodeBase64(cryptData)), charset);
+
         } catch (Exception e) {
             // log.error("解密错误，错误信息：", e);
             throw new RuntimeException("解密错误，错误信息：", e);

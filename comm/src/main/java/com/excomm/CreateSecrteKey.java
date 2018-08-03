@@ -3,6 +3,8 @@ package com.excomm;
 /**
  * Created by liang on 2018/7/13.
  */
+import org.apache.commons.codec.binary.Base64;
+
 import java.security.Key;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -10,8 +12,6 @@ import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.util.HashMap;
 import java.util.Map;
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
 
 public class CreateSecrteKey {
 
@@ -21,11 +21,8 @@ public class CreateSecrteKey {
     }
 
     public static final String KEY_ALGORITHM = "RSA";
-    //public static final String SIGNATURE_ALGORITHM = "MD5withRSA";
     private static final String PUBLIC_KEY = "CHINADS";
     private static final String PRIVATE_KEY = "CHINA_DS";
-//    private static final String PUBLIC_KEY = "RSAPublicKey";
-//    private static final String PRIVATE_KEY = "RSAPrivateKey";
 
     //获得公钥
     public static String getPublicKey(Map<String, Object> keyMap) throws Exception {
@@ -47,12 +44,12 @@ public class CreateSecrteKey {
 
     //解码返回byte
     public static byte[] decryptBASE64(String key) throws Exception {
-        return (new BASE64Decoder()).decodeBuffer(key);
+        return Base64.decodeBase64(key);
     }
 
     //编码返回字符串
     public static String encryptBASE64(byte[] key) throws Exception {
-        return (new BASE64Encoder()).encodeBuffer(key);
+        return Base64.encodeBase64String(key);
     }
 
     //map对象中存放公私钥
