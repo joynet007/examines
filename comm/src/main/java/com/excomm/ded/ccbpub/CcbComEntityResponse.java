@@ -1,8 +1,11 @@
 package com.excomm.ded.ccbpub;
 
+import lombok.Data;
+
 /**
  * Created by liang on 2018/7/15.
  */
+@Data
 public class CcbComEntityResponse {
 
     public String svptBsnDt;//服务方业务日期
