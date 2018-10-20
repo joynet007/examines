@@ -12,6 +12,14 @@ var knowledgepoint = {};
 
 
 knowledgepoint.add = function(id){
+
+    var subjectid =  $("#cc1_list").combobox("getValue");
+    if(subjectid == '' || subjectid == undefined){
+        $.messager.alert('提示',"请先选择科目！");
+        return;
+    }
+
+
     $("body").append($("<div id='knowledgepoint_win_add'></div>"));
     var url = systemNamePath+"/knowledgepoint/add/";
     $("#knowledgepoint_win_add").dialog({

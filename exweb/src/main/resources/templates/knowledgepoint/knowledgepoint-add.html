@@ -6,6 +6,7 @@
         <tr>
             <td >
             <input class="easyui-validatebox" type="text" name="mtitle" data-options="required:true" style="width:600px" value=""></input>
+            <input id="subjectid" type="text" name="subjectid" style="display: none" value=""></input>
             </td>
         </tr>
 
@@ -14,7 +15,7 @@
         </tr>
         <tr>
             <td >
-                <textarea id="elm1" name="explain" class="xheditor" style="width:800px;height:400px"></textarea>
+                <textarea id="explain" name="explain" class="xheditor" style="width:800px;height:400px"></textarea>
             </td>
         </tr>
     </table>
@@ -29,15 +30,27 @@
 
 
     $(document).ready(function (){
-        $('#elm1').xheditor({tools:'full',
+        $('#explain').xheditor({tools:'full',
             upImgUrl:"/web/choicequestion/upload",
             upImgExt:"jpg,jpeg,gif,png",html5Upload : false});
+
+        $("#subjectid").val($("#cc1_list").combobox("getValue"));
+        var subjectid =  $("#cc1_list").combobox("getValue");
+
     });
 
 
     function submitForm(){
         var mtitle=$("input[name=mtitle]");
-        var explain=$("input[name=explain]");
+        var explain=$('#explain');
+
+        var subjectid =  $("#cc1_list").combobox("getValue");
+        if(subjectid == null || subjectid == '')
+        {
+            $.messager.alert('提示','科目编码不能为空！');
+            return false;
+        }
+        $("#subjectid").val(subjectid);
 
         $('#knowledgepointAddForm').form('submit',{
             url:systemNamePath+"/knowledgepoint/save",
@@ -55,6 +68,7 @@
                     answerb.focus();
                     return false;
                 }
+
             },
             success:function(data){
                 var obj = baseutil.toJSON(data);
@@ -63,7 +77,7 @@
                     $('#knowledgepointlist').datagrid('load');
                 }else{
                     $.messager.alert('提示',obj.mdesc);
-                    $("#knowledgepoint_win_add").dialog('destroy');
+//                    $("#knowledgepoint_win_add").dialog('destroy');
                 }
 
             }
