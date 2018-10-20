@@ -26,10 +26,22 @@ public class UserInfoApp {
 
     private MessageObject mo = new MessageObject(SystemConfig.mess_succ,"执行成功");
 
-    @RequestMapping(value="/dologin",method = RequestMethod.POST)
+
+    @RequestMapping(value="/test")
+    public MessageObject test(){
+
+        System.out.println("--完成test--");
+
+
+        return mo;
+    }
+
+
+    @RequestMapping(value="/dologin")
     public MessageObject dologin(@RequestParam(required = false) String usertel,
-                                 @RequestParam(required = false) String userpassword,
-                                 HttpServletRequest request){
+                                 @RequestParam(required = false) String userpassword){
+
+        System.out.println("--"+usertel+"---"+userpassword);
 
         try {
 
@@ -64,7 +76,7 @@ public class UserInfoApp {
      * @param model
      * @return
      */
-    @RequestMapping(value="/doregister", method = RequestMethod.POST)
+    @RequestMapping(value="/doregister")
     @ResponseBody
     public MessageObject doregister(@RequestParam(required = false) String usertel ,
                                         @RequestParam(required = false) String userpassword ,
@@ -116,7 +128,7 @@ public class UserInfoApp {
      * @param tokenid
      * @return
      */
-    @RequestMapping(value="/doout", method = RequestMethod.POST)
+    @RequestMapping(value="/doout")
     @ResponseBody
     public MessageObject doout(@RequestParam(required = false) long userid,
                                @RequestParam(required = false) String tokenid){
@@ -139,7 +151,7 @@ public class UserInfoApp {
      *
      * @return
      */
-    @RequestMapping(value="/findMaxStudyList", method = RequestMethod.POST)
+    @RequestMapping(value="/findMaxStudyList")
     public  MessageObject findMaxStudyList(){
 
             MessageObject messageObject = new MessageObject(SystemConfig.mess_succ,"执行成功！");

@@ -1,12 +1,16 @@
 package com.exweb.controller;
 
+import com.excomm.IDmanager;
 import com.excomm.StringUtil;
 import com.exservice.dao.KnowledgepointMapper;
 import com.exservice.dao.repository.CrudRepository;
+import com.exservice.pojo.po.Choicequestion;
 import com.exservice.pojo.po.KnowledgePoint;
+import com.exservice.service.KnowledgepointManager;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -23,10 +27,7 @@ import java.util.List;
 public class KenowledgePointContoller {
 
     @Resource
-    KnowledgepointMapper knowledgepointMapper;
-
-    @Resource
-    CrudRepository<KnowledgePoint> crudRepository;
+    KnowledgepointManager knowledgepointManager;
 
     @Value("${spring.datasource.url}")
     private String key;
@@ -37,53 +38,49 @@ public class KenowledgePointContoller {
      */
     @RequestMapping(value="/startpage")
     public String viewfirstpage(){
-
         System.out.println(key);
-        KnowledgePoint knowledgePoint = new KnowledgePoint();
-        knowledgePoint.setCreatetime(System.currentTimeMillis());
-        knowledgePoint.setMstatus("mstatus.stop");
-        knowledgePoint.setMtitle("--biaoti--");
-        knowledgePoint.setKnowledgepointid(1);
-
-        crudRepository.save(knowledgePoint);
-        crudRepository.delete(knowledgePoint);
-        crudRepository.findOne(knowledgePoint);
-
         return "knowledgepoint/knowledgepoint-list";
     }
 
     @RequestMapping(value="/add")
-    public String add(Model model, @RequestParam(required = false) String subjectid ,
-                      @RequestParam(required = false) String subjectName){
-
-        System.out.println(subjectid+"---"+subjectName+"---");
-
-        model.addAttribute("subjectid",subjectid);
-        model.addAttribute("subjectName",subjectName);
-
+    public String add(){
         return "knowledgepoint/knowledgepoint-add";
     }
+//    @RequestMapping(value="/add")
+//    public String save(Model model, @RequestParam(required = false) String subjectid ,
+//                      @RequestParam(required = false) String subjectName){
+//
+//        System.out.println(subjectid+"---"+subjectName+"---");
+//
+//        model.addAttribute("subjectid",subjectid);
+//        model.addAttribute("subjectName",subjectName);
+//
+//        return "knowledgepoint/knowledgepoint-add";
+//    }
 
     /**
-     * 根据科目编号、年份查询题目
-     * @param subjectid
-     * @param moniname
+     * 根据科目编号查询知识点
      * @return
      */
     @RequestMapping(value="/viewlist")
     @ResponseBody
-    public List<KnowledgePoint> viewlist(@RequestParam(required = false) String subjectid ,
-                                         @RequestParam(required = false) String moniname){
-
-        List<KnowledgePoint> list = new ArrayList<KnowledgePoint>();
-        if(StringUtil.isEmpty(subjectid)){
-            return list;
-        }
-        if(StringUtil.isEmpty(moniname)){
-            return list;
-        }
-        list= (List<KnowledgePoint>) knowledgepointMapper.viewlist();
+    public List<KnowledgePoint> viewlist(@RequestParam int pageNumber , @RequestParam int pageSize ,@RequestParam  String subjectid){
+        System.out.println("viewlist=="+subjectid);
+        List<KnowledgePoint> list = knowledgepointManager.viewlist((pageNumber-1)*pageSize,pageSize,subjectid);
         return list;
+    }
+
+    /**
+     * 根据科目编号知识点
+     * @return
+     */
+    @RequestMapping(value="/selectallcount")
+    @ResponseBody
+    public long selectallcount(@RequestParam  String subjectid){
+        System.out.println("selectallcount=="+subjectid);
+        long k = knowledgepointManager.selectallcount(subjectid);
+        System.out.println("--查出来的条数--"+k);
+        return k;
     }
 
 

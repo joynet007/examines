@@ -11,7 +11,11 @@ import java.sql.Connection;
 
 /**
  * Created by liang on 2018/7/8.
+ *
+ * 1、根据系统的配置文件获取 创建datasource 的四个要素
+ * 2、创建datasource
  */
+
 @Component
 public class CrudConnection {
 

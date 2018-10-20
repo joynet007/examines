@@ -60,6 +60,7 @@ public class ChoicequestionProvider {
             FROM(tableName);
             WHERE("1=1  ");
 
+
             if(!StringUtil.isEmpty(map.get("moniname"))){
                 AND();
                 WHERE("moniname = #{moniname}");

@@ -1,73 +1,51 @@
-<script th:src="@{/js/hisquestion/hisquestion.js}"></script>
+<script th:src="@{/js/knowledgepoint/knowledgepoint.js}"></script>
+
 
 <div id="p" class="easyui-panel" title="选择信息" style="width: auto;height: 80px;padding-top: 10px;padding-left: 20px;">
     请选择科目：
-    <input id="subjectid" class="easyui-combobox" style="width:200px;" name="sublevel1"
-    data-options="valueField: 'subjectid',textField: 'subjectname',
-    url: '/web/subject/findSubjectBypid/rootid',panelHeight:'auto' "/>
-    请选择年份：
-    <select id="moniname" class="easyui-combobox" style="width:auto" name="moniname" data-options="
-    valueField: 'moniname',
-    textField: 'moniname',
-    url: '/web/moniyear/viewlist'"
-    >
-    </select>
-    <a href="javascript:tableload();" class="easyui-linkbutton" style="margin-left: 10px" iconCls="icon-search">查询</a>
-    <!--<a href="javascript:addq();" class="easyui-linkbutton" style="margin-left: 10px" iconCls="icon-add">添加</a>-->
+    <input id="cc1_list" class="easyui-combobox" style="width:300px" name="sublevel"
+           data-options="valueField: 'subjectid',textField: 'subjectname',
+                        url: '/web/subject/findSubjectBypid/rootid',
+                        onSelect: function(rec){
+                            dopageload(rec.subjectid);
+                        },onLoadSuccess:function(){
+
+                        },panelHeight:'auto' "
+    />
 </div>
-<table id="hisquestionlist" class="easyui-datagrid" title="科目列表" style="width: auto;height:auto;"
-       data-options="rownumbers:true,singleSelect:true,url:'/web/hisquestion/viewlist',method:'get',toolbar:hisquestion.toolbar">
+
+
+<table id="knowledgepointlist" class="easyui-datagrid" title="科目列表" style="width: auto;height:auto;"
+       data-options="rownumbers:true,singleSelect:true,url:'/web/knowledgepoint/viewlist',method:'get',toolbar:knowledgepoint.toolbar
+       ,queryParams:{pageNumber:1,pageSize:3,subjectid:''}">
     <thead>
     <tr>
-        <th data-options="field:'questionid',width:80,hidden:true">编码</th>
-        <th data-options="field:'name',width:500">题目名称</th>
-        <th data-options="field:'moniname',width:100">年份</th>
-        <th data-options="field:'sublevel1',width:100">科目</th>
-        <th data-options="field:'mcode',width:100">序号号</th>
-        <th data-options="field:'ctime',width:140,formatter:baseutil.formatter_time">时间</th>
+        <th data-options="field:'knowledgepointid',width:80,hidden:true">编码</th>
+        <th data-options="field:'mtitle',width:400">标题</th>
+        <th data-options="field:'subjectid',width:100">所属科目</th>
+        <th data-options="field:'createtime',width:200,formatter:baseutil.formatter_time">创建时间</th>
+        <th data-options="field:'mstatus',width:120">状态</th>
     </tr>
     </thead>
 </table>
-<!--<div id='hisquestion_win_add'></div>-->
 
-<script>
-    function tableload(){
-        var subjectid = $('#subjectid').combobox('getValue');
-        var moniname = $('#moniname').combobox('getValue');
+<div id="knowledgepoint_pagination" style="background:#efefef;border:1px solid #ccc;"></div>
 
-        if(subjectid == null || subjectid == ''){
-            $.messager.alert('提示','请选择详细的科目');
-            return false;
-        }
-        if(moniname == null || moniname == ''){
-            $.messager.alert('提示','请选择模拟年份');
-            return false;
-        }
+<script th:inline="javascript">
 
-        $('#hisquestionlist').datagrid('load',{
-            subjectid: subjectid,
-            moniname: moniname
+    function dopageload(sjid) {
+        var countPath = systemNamePath+"/knowledgepoint/selectallcount?subjectid="+sjid;
+
+        $('#knowledgepointlist').datagrid('load',{
+            pageNumber: 1,
+            pageSize: 3,
+            subjectid: sjid
         });
+
+        pageutil.pagination_Knowledgepoint(countPath,'knowledgepoint_pagination','knowledgepointlist', sjid);
 
     }
 
-//    function addq(){
-//        var subjectid = $('#subjectid').combobox('getValue');
-//        var subjectName = $('#subjectid').combobox('getText');
-//        var moniname = $('#moniname').combobox('getValue');
-//
-//
-//
-//        if(subjectid == null || subjectid == ''){
-//            $.messager.alert('提示','请选择详细的科目');
-//            return false;
-//        }
-//        if(moniname == null || moniname == ''){
-//            $.messager.alert('提示','请选择模拟年份');
-//            return false;
-//        }
-//
-//        hisquestion.addquestion(subjectid,subjectName,moniname);
-//    }
 
 </script>
+<!--<div id='hisquestion_win_add'></div>-->

@@ -46,16 +46,14 @@ public class CrudRepositoryImpl<T> implements CrudRepository<T> {
         autoPrepare(t);
 
         String sql = "insert into "+tableName+"("+save_ziduan+")values ("+save_wenhao+")";
-        System.out.println(sql);
+        System.out.println(this.getClass().toString()+" -- "+sql);
 
         Connection connection =crudConnection.getConnection();
         PreparedStatement ps=null;
         try {
             ps = connection.prepareStatement(sql);
-
             String str = GsonUtil.objTOjson(list);
-
-            System.out.println(str+"---sdfsfsdfs--");
+            System.out.println(this.getClass().toString()+" -- "+"转化成json="+str);
 
             for(int i=0;i<list.size();i++)
             {
@@ -381,7 +379,10 @@ public class CrudRepositoryImpl<T> implements CrudRepository<T> {
     }
 
 
-
+    /**
+     * 创建一个sqlobjct 主要存入白字段的名称 、 值 、类型 三个字段信息
+     *
+     */
     public class SqlObject{
 
         public String indexName;

@@ -71,6 +71,13 @@ public class DesSecrte {
 
     }
 
+    /**
+     * hexString
+     *
+     * @param hexString  这个可以双方约定的渠道号和时间，获取初始的DES秘钥，
+     *                   下一步的秘钥交换的加密采用此DES 进行加密和解密
+     * @return
+     */
     public static byte[] asc2bin(String hexString) {
         byte[] hexbyte = hexString.getBytes();
         StringBuffer str = new StringBuffer();
@@ -109,7 +116,10 @@ public class DesSecrte {
 //        byte[] DES_KEY = {21, 1, -110, 82, -32, -85, -128, -65};
         byte[] DES_KEY;
 
-        String key ="0011womewomewome";
+//        String key ="0011womewomewome";
+        //时间采用8位的年月日如20181015 + 8位的渠道号（渠道号必须为一）
+        String key ="2018101600000001";
+        System.out.println(key.length()+"=长度");
         DES_KEY = asc2bin(key);
 
         System.out.println("长度=="+DES_KEY.length+"=="+DES_KEY);

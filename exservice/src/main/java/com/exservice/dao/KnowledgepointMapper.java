@@ -1,12 +1,12 @@
 package com.exservice.dao;
 
-import com.exservice.dao.repository.CrudRepository;
-import com.exservice.dao.repository.CrudRepositoryImpl;
 import com.exservice.pojo.po.KnowledgePoint;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.SelectProvider;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -15,12 +15,16 @@ import java.util.List;
 
 @Component
 @Mapper
-public interface KnowledgepointMapper {
+public interface KnowledgepointMapper{
 
     public static final String tableName = "tb_knowledgepoint";
 
-    @Select("select * from " + tableName )
-    public List<KnowledgePoint> viewlist();
+
+    @SelectProvider(type = KnowledgepointProvider.class, method = "queryList")
+    List<KnowledgePoint> viewlist(HashMap<String,Object> map);
+
+    @SelectProvider(type = KnowledgepointProvider.class, method = "selectallcount")
+    long selectallcount(HashMap<String,String> map);
 
 
 }

@@ -18,5 +18,6 @@ public class KnowledgePoint {
     public long createtime;
     public String mstatus;
 
+    public String subjectid;//科目编码（所属科目）
 
 }

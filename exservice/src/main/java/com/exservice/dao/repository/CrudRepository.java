@@ -7,6 +7,8 @@ import java.sql.SQLException;
 
 /**
  * Created by liang on 2018/7/8.
+ * 定义需要的几个接口
+ * 1、增加对象  2、删除对象  3、更改对象 、4 查询对象
  */
 @Component
 public interface CrudRepository<T> {
