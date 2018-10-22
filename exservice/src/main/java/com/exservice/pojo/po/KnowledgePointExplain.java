@@ -12,5 +12,5 @@ import lombok.Data;
 public class KnowledgePointExplain {
     @TableId("knowledgepointid")
     public String knowledgepointid;
-    public String explain;//解析说明
+    public String mexplain;//解析说明
 }

@@ -17,4 +17,5 @@ public interface KnowledgepointManager {
 
    public void save(String subjectid , String mtitle , String explain);
 
+   public void delete(String knowledgepointid);
 }

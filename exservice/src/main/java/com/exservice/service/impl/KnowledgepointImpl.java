@@ -46,11 +46,23 @@ public class KnowledgepointImpl implements KnowledgepointManager {
         crudRepository.save(kp);
 
         KnowledgePointExplain kpe = new KnowledgePointExplain();
-        kpe.setExplain(explain);
+        kpe.setMexplain(explain);
         kpe.setKnowledgepointid(id);
 
         kpeRepository.save(kpe);
 
+
+    }
+
+    public void delete(String knowledgepointid){
+        KnowledgePoint kp = new KnowledgePoint();
+        KnowledgePointExplain kpe = new KnowledgePointExplain();
+
+        kp.setKnowledgepointid(knowledgepointid);
+        kpe.setKnowledgepointid(knowledgepointid);
+
+        crudRepository.delete(kp);
+        kpeRepository.delete(kpe);
 
     }
 

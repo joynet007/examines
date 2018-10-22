@@ -90,12 +90,12 @@ pageutil.pagination_Knowledgepoint = function( allcountPath, page_pagination , p
     $.ajax({ url: allcountPath, success: function(data){
         $('#'+page_pagination).pagination({
             total:data,
-            pageSize:3,
+            pageSize:20,
             showPageList:true,
             showRefresh:false,
             //displayMsg: '',
             displayMsg:'当前显示从{from}到{to},共{total}记录',
-            pageList: [3,5,10,20,30,40],
+            pageList: [5,10,20,30,40],
             beforePageText: '第',
             afterPageText: '页    共 {pages} 页',
             onSelectPage:function(pageNumber, pageSize){

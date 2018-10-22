@@ -74,7 +74,10 @@
                 var obj = baseutil.toJSON(data);
                 if(obj.code == baseutil.mess_succ ){
                     $("#knowledgepoint_win_add").dialog('destroy');
-                    $('#knowledgepointlist').datagrid('load');
+
+                    //刷新分页
+                    knowledgepoint.dopageload(subjectid);
+
                 }else{
                     $.messager.alert('提示',obj.mdesc);
 //                    $("#knowledgepoint_win_add").dialog('destroy');

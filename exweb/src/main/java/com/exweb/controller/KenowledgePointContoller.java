@@ -12,10 +12,7 @@ import com.exservice.service.KnowledgepointManager;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -77,6 +74,24 @@ public class KenowledgePointContoller {
             }
 
             knowledgepointManager.save(subjectid,mtitle,explain);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return mo;
+    }
+    @RequestMapping(value="/delete/{knowledgepointid}")
+    @ResponseBody
+    public MessageObject delete(Model model, @PathVariable String knowledgepointid ){
+        System.out.println(knowledgepointid+"--");
+        MessageObject mo = new MessageObject();
+        try{
+            if(StringUtil.isEmpty(knowledgepointid)){
+                mo.setCode(SystemConfig.mess_failed);
+                mo.setMdesc("科目编码不能为空！");
+                return mo;
+            }
+            knowledgepointManager.delete(knowledgepointid);
         }catch(Exception e){
             e.printStackTrace();
         }

@@ -7,7 +7,7 @@
            data-options="valueField: 'subjectid',textField: 'subjectname',
                         url: '/web/subject/findSubjectBypid/rootid',
                         onSelect: function(rec){
-                            dopageload(rec.subjectid);
+                            knowledgepoint.dopageload(rec.subjectid);
                         },onLoadSuccess:function(){
 
                         },panelHeight:'auto' "
@@ -17,7 +17,7 @@
 
 <table id="knowledgepointlist" class="easyui-datagrid" title="科目列表" style="width: auto;height:auto;"
        data-options="rownumbers:true,singleSelect:true,url:'/web/knowledgepoint/viewlist',method:'get',toolbar:knowledgepoint.toolbar
-       ,queryParams:{pageNumber:1,pageSize:3,subjectid:''}">
+       ,queryParams:{pageNumber:1,pageSize:20,subjectid:''}">
     <thead>
     <tr>
         <th data-options="field:'knowledgepointid',width:80,hidden:true">编码</th>
@@ -31,21 +31,4 @@
 
 <div id="knowledgepoint_pagination" style="background:#efefef;border:1px solid #ccc;"></div>
 
-<script th:inline="javascript">
-
-    function dopageload(sjid) {
-        var countPath = systemNamePath+"/knowledgepoint/selectallcount?subjectid="+sjid;
-
-        $('#knowledgepointlist').datagrid('load',{
-            pageNumber: 1,
-            pageSize: 3,
-            subjectid: sjid
-        });
-
-        pageutil.pagination_Knowledgepoint(countPath,'knowledgepoint_pagination','knowledgepointlist', sjid);
-
-    }
-
-
-</script>
 <!--<div id='hisquestion_win_add'></div>-->
