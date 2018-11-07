@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="comm" />
+        <module name="examines" />
         <module name="exapp" />
         <module name="exservice" />
         <module name="exweb" />
