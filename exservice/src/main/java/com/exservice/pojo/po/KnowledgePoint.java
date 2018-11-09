@@ -13,7 +13,7 @@ import lombok.Data;
 public class KnowledgePoint {
 
     @TableId(value = "knowledgepointid")
-    public long knowledgepointid;
+    public String knowledgepointid;
     public String mtitle;
     public long createtime;
     public String mstatus;

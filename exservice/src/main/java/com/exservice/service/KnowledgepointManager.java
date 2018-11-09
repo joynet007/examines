@@ -15,4 +15,7 @@ public interface KnowledgepointManager {
 
    public long selectallcount(String subjectid);
 
+   public void save(String subjectid , String mtitle , String explain);
+
+   public void delete(String knowledgepointid);
 }

@@ -71,15 +71,16 @@ public class CreateSecrteKey {
     }
 
     public static void main(String[] args) {
-        Map<String, Object> keyMap;
-        try {
-            keyMap = initKey();
-            String publicKey = getPublicKey(keyMap);
-            System.out.println("获得的公钥=" + publicKey);
-            String privateKey = getPrivateKey(keyMap);
-            System.out.println("获得的私钥=" + privateKey);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        Map<String, Object> keyMap;
+//        try {
+//            keyMap = initKey();
+//            String publicKey = getPublicKey(keyMap);
+//            System.out.println("获得的公钥=" + publicKey);
+//            String privateKey = getPrivateKey(keyMap);
+//            System.out.println("获得的私钥=" + privateKey);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+        long t = System.currentTimeMillis();
     }
 }

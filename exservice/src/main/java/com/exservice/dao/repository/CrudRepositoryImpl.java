@@ -25,6 +25,7 @@ public class CrudRepositoryImpl<T> implements CrudRepository<T> {
     private StringBuffer updateZiduan;
 
     private List<SqlObject> list ;
+    private List<SqlObject> listpk ;
 
     private HashMap<String,Object> map;
 
@@ -32,6 +33,7 @@ public class CrudRepositoryImpl<T> implements CrudRepository<T> {
     private String tableID = "";
 
     public static final String SSTTRR = "class java.lang.String";
+
 
 
     @Resource
@@ -104,18 +106,17 @@ public class CrudRepositoryImpl<T> implements CrudRepository<T> {
         try {
             ps = connection.prepareStatement(sql);
 
-            for(int i=0;i<list.size();i++)
-            {
-                SqlObject sqlObject = (SqlObject) list.get(i);
-                int index = i + 1;
-                if(sqlObject.getIndexType().equals(SSTTRR)){
-                    ps.setString(index, (String) sqlObject.getIndexValue());
-                }else if(sqlObject.getIndexType().equals("Long")){
-                    ps.setLong(index, (Long) sqlObject.getIndexValue());
+            try {
 
-                }else if(sqlObject.getIndexType().equals("long")){
-                    ps.setLong(index, (Long) sqlObject.getIndexValue());
-                }
+                String pkid = BeanUtils.getProperty(t,tableID);
+                ps.setString(1, pkid);
+
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
             }
 
             ps.executeUpdate();
@@ -304,6 +305,7 @@ public class CrudRepositoryImpl<T> implements CrudRepository<T> {
         updateZiduan = new StringBuffer();
 
         list = new ArrayList<SqlObject>();
+        listpk = new ArrayList<SqlObject>();
 
         for (int i = 0; i < fields.length; i++) {//遍历
             //得到属性

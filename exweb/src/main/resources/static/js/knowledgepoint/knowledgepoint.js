@@ -12,6 +12,12 @@ var knowledgepoint = {};
 
 
 knowledgepoint.add = function(id){
+
+    var subjectid =  $("#cc1_list").combobox("getValue");
+    if(subjectid == '' || subjectid == undefined){
+        $.messager.alert('提示',"请先选择科目！");
+        return;
+    }
     $("body").append($("<div id='knowledgepoint_win_add'></div>"));
     var url = systemNamePath+"/knowledgepoint/add/";
     $("#knowledgepoint_win_add").dialog({
@@ -28,32 +34,68 @@ knowledgepoint.add = function(id){
 
 };
 
-knowledgepoint.edit = function (){
 
+/**
+ * 新增成功后的 载入页面
+ *   在用户选择科目的时候重新显示分页（需要重新计算总条数、总页数）
+ *
+ */
+knowledgepoint.dopageload=function(sjid){
+    if(sjid == '' || sjid == null){
+        $('#knowledgepointlist').datagrid('load');
+    }else{
+        var countPath = systemNamePath+"/knowledgepoint/selectallcount?subjectid="+sjid;
+        $('#knowledgepointlist').datagrid('load',{
+            pageNumber: 1,
+            pageSize: 20,
+            subjectid: sjid
+        });
+        pageutil.pagination_Knowledgepoint(countPath,'knowledgepoint_pagination','knowledgepointlist', sjid);
+    }
 };
 
-// $.ajax({url:systemNamePath+'/userinfo/del/'+usertel,async:false});
+/**
+ * 刷新页面
+ */
+knowledgepoint.reload = function (){
+    var subjectid =  $("#cc1_list").combobox("getValue");
+    if(subjectid == '' || subjectid == undefined){
+        knowledgepoint.dopageload('');
+    }else{
+        knowledgepoint.dopageload(subjectid);
+    }
+};
 
-knowledgepoint.del = function(subid,parentid){
-    var url = systemNamePath+'/knowledgepoint/delete/'+subid;
-    jQuery.messager.confirm('提示:','确定删除此节点信息么?',function(event){
-        if (event) {
-            $.ajax({
-                url: url,
-                success: function (data) {
-                    if (data.code == baseutil.mess_succ) {
-                        $('#knowledgepoint-tree').tree('reload');
-                        var url = systemNamePath + '/knowledgepoint/knowledgepoint-view/' + parentid;
-                        $('#knowledgepoint-tree-panel').panel('refresh', url);
-                    } else {
-                        $.messager.alert('提示', obj.mdesc);
+/**
+ * 删除对象
+ * @param subid
+ * @param parentid
+ */
+knowledgepoint.del = function(){
+
+    var row = $('#knowledgepointlist').datagrid('getSelected');
+    if(row == null){
+        $.messager.alert('提示','请选取一行数据');
+    }else{
+        var knowledgepointid = row.knowledgepointid;
+        var url = systemNamePath+'/knowledgepoint/delete/'+knowledgepointid;
+        jQuery.messager.confirm('提示:','确定删除此节点信息么?',function(event){
+            if (event) {
+                $.ajax({
+                    url: url,
+                    success: function (data) {
+                        if (data.code == baseutil.mess_succ) {
+                            knowledgepoint.dopageload();
+                        } else {
+                            $.messager.alert('提示', obj.mdesc);
+                        }
                     }
-                }
-            });
-        } else {
-            //nothing
-        }
-    });
+                });
+            } else {
+                //nothing
+            }
+        });
+    }
 };
 
 
