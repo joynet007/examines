@@ -4,7 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <packaging>jar</packaging>
+    <!--<packaging>jar</packaging>-->
+    <packaging>pom</packaging>
 
     <groupId>com.examines</groupId>
     <artifactId>examines</artifactId>
@@ -27,7 +28,6 @@
         <repository>
             <id>aliyun</id>
             <name>aliyun</name>
-            <!--<url>http://192.168.80.135:17981/nexus/content/repositories/aliyun/</url>-->
             <url>https://maven.aliyun.com/repository/apache-snapshots</url>
             <releases>
                 <enabled>true</enabled>
