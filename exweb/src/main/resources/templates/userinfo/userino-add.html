@@ -13,6 +13,16 @@
             <td><input class="easyui-validatebox" type="password" name="userpassword" data-options="required:true"  value=""></input></td>
         </tr>
         <tr>
+            <td>用户类型：</td>
+            <td>
+                <select id="usertype" class="easyui-combobox" name="usertype" style="width:200px;">
+                    <option value="usertype.normal">普通用户</option>
+                    <option value="usertype.vip">vip用户</option>
+                    <option value="usertype.manager">管理员</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
             <td>性别：</td>
             <td>
                 <input type="radio" name="msex" value="msex.male" checked="checked" /> 男

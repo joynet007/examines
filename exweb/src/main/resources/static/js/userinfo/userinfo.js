@@ -3,13 +3,12 @@ $(document).ready(function (){
     var countPath = systemNamePath+"/userinfo/selectallcount";
     //分页单独的一个分页类
     pageutil.pagination(countPath,'userinfolist_pagination','userinfolist');
+
 });
 
 
 
 var userinfo = {};
-
-
 
 
 userinfo.formatter_msex = function(val , rowObj){
@@ -34,6 +33,9 @@ userinfo.add = function(){
             $(this).dialog('destroy');
         }
     });
+
+    //初始化 用户类型 列表数据
+    // userinfo.initSelect();
 
 
 };
@@ -90,3 +92,6 @@ userinfo.toolbar=[{
         userinfo.reload();
     }
 }];
+
+//用户类型
+// userinfo.usertype ='[{"usertype.normal":"普通用户","usertype.vip":"vip用户","usertype.manager":"管理员"}]';
