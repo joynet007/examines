@@ -8,7 +8,10 @@ import com.exservice.dao.repository.CrudRepository;
 import com.exservice.pojo.po.KnowledgePoint;
 import com.exservice.pojo.po.KnowledgePointExplain;
 import com.exservice.service.KnowledgepointManager;
+import org.springframework.data.annotation.Transient;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
@@ -35,7 +38,10 @@ public class KnowledgepointImpl implements KnowledgepointManager {
         crudRepository.save(obj);
     }
 
-    public void save(String subjectid , String mtitle , String explain){
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void save(String subjectid , String mtitle , String explain) throws RuntimeException{
+
+        System.out.println("==save=="+subjectid+"----"+mtitle+"---"+explain);
         KnowledgePoint kp = new KnowledgePoint();
         String id = IDmanager.createID();
         kp.setCreatetime(System.currentTimeMillis());
@@ -53,8 +59,8 @@ public class KnowledgepointImpl implements KnowledgepointManager {
 
 
     }
-
-    public void delete(String knowledgepointid){
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void delete(String knowledgepointid)throws  RuntimeException{
         KnowledgePoint kp = new KnowledgePoint();
         KnowledgePointExplain kpe = new KnowledgePointExplain();
 
