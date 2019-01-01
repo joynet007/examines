@@ -76,6 +76,7 @@ public class UserInfoController {
     public MessageObject createUserinfo(@RequestParam(required = false) String usertel ,
                                         @RequestParam(required = false) String username ,
                                         @RequestParam(required = false) String userpassword ,
+                                        @RequestParam(required = false) String usertype ,
                                         @RequestParam(required = false) String msex ,
                                         @RequestParam(required = false) String mstatus ,
                                         Model model, HttpSession session){
@@ -83,9 +84,11 @@ public class UserInfoController {
         MessageObject messageObject = new MessageObject(SystemConfig.mess_succ,"执行成功！");
         try {
             if(userInfo == null){
+
                 userInfo = new UserInfo();
                 userpassword = MD5Util.getMD5Code(userpassword);
-                userInfo.setUserpassword( userpassword );
+                userInfo.setUserpassword(  MD5Util.getMD5Code(userpassword) );
+                userInfo.setUsertype( usertype );
                 userInfo.setUsertel(usertel);
                 userInfo.setCreatetime(System.currentTimeMillis());
                 userInfo.setMstatus(mstatus);
@@ -144,5 +147,26 @@ public class UserInfoController {
         }
     }
 
+
+    /**
+     * 更改用户的状态（停用或者启用）
+     * @param usertel
+     */
+    @RequestMapping(method= RequestMethod.GET , value="/upatestatus/{usertel}")
+    @ResponseBody
+    public void upatestatus(@PathVariable String usertel ){
+
+        UserInfo userInfo = userInfoManager.findByUsertel(usertel);
+
+        if(userInfo != null){
+            if(SystemConfig.mstatus_normal.equals(userInfo.getMstatus())){
+                userInfo.setMstatus(SystemConfig.mstatus_stop);
+            }else{
+                userInfo.setMstatus(SystemConfig.mstatus_normal);
+            }
+
+            userInfoManager.update(userInfo);
+        }
+    }
 
 }

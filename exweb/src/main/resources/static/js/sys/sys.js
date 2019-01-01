@@ -84,7 +84,7 @@ sys.addTabs=function(title,id){
 		//系统安全退出
 		else if("dologout" == id){
 
-			var url = systemNamePath+"/rest/sys/dologin";
+			var url = systemNamePath.replace("web","")+"/sys/outlogin";
 			window.location.href=url;
 		}
 		

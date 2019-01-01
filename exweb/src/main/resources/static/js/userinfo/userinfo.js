@@ -19,6 +19,10 @@ userinfo.formatter_msex = function(val , rowObj){
     }
 };
 
+userinfo.formatter_usertype = function(val , rowObj){
+   return userinfo.usertype[val];
+};
+
 
 userinfo.add = function(){
     $("body").append($("<div id='userinfo_win_add'></div>"));
@@ -47,13 +51,44 @@ userinfo.del = function(){
     if(row == null){
         $.messager.alert('提示','请选取一行数据');
     }else{
-        var usertel = row.usertel;
-        /**
-         * 下面的ajax的操作不是异步而是同步操作
-         * 即等到删除完了之后 datagrid 页面才会reload
-         */
-        $.ajax({url:systemNamePath+'/userinfo/del/'+usertel,async:false});
-        $('#userinfolist').datagrid('reload');
+
+        jQuery.messager.confirm('提示:','确定删除此节点信息么?',function(event){
+
+            var usertel = row.usertel;
+            /**
+             * 下面的ajax的操作不是异步而是同步操作
+             * 即等到删除完了之后 datagrid 页面才会reload
+             */
+            $.ajax({url:systemNamePath+'/userinfo/del/'+usertel,async:false});
+            $('#userinfolist').datagrid('reload');
+
+        });
+
+    }
+
+};
+
+/**
+ * 停用或者启用用户
+ */
+userinfo.upatestatus = function(){
+    var row = $('#userinfolist').datagrid('getSelected');
+    if(row == null){
+        $.messager.alert('提示','请选取一行数据');
+    }else{
+
+        jQuery.messager.confirm('提示:','确定要改变此用户状态?',function(event){
+
+            var usertel = row.usertel;
+            /**
+             * 下面的ajax的操作不是异步而是同步操作
+             * 即等到删除完了之后 datagrid 页面才会reload
+             */
+            $.ajax({url:systemNamePath+'/userinfo/upatestatus/'+usertel,async:false});
+            $('#userinfolist').datagrid('reload');
+
+        });
+
     }
 
 };
@@ -80,10 +115,10 @@ userinfo.toolbar=[{
         userinfo.edit();
     }
 },'-',{
-    text:'删除',
+    text:'停用/启用',
     iconCls:'icon-cancel',
     handler:function(){
-        userinfo.del();
+        userinfo.upatestatus();
     }
 },'-',{
     text:'刷新',
@@ -94,4 +129,4 @@ userinfo.toolbar=[{
 }];
 
 //用户类型
-// userinfo.usertype ='[{"usertype.normal":"普通用户","usertype.vip":"vip用户","usertype.manager":"管理员"}]';
+userinfo.usertype ={"usertype.normal":"普通用户","usertype.vip":"vip用户","usertype.manager":"管理员"};

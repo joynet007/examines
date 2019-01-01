@@ -71,6 +71,18 @@ public class SystemController {
         }
     }
 
+    /**
+     * 系统启动访问
+     * http://ip:port
+     * 直接进入此方法
+     * @return
+     */
+    @RequestMapping(value="/outlogin")
+    public String outlogin(HttpServletRequest request) {
+        request.getSession().invalidate();
+        return "index";
+    }
+
 
 
 }
