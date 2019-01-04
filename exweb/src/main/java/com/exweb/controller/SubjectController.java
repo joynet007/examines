@@ -188,6 +188,19 @@ public class SubjectController {
         return list;
     }
 
-
+    @RequestMapping(value="/getNameAll/{subjectid}")
+    @ResponseBody
+    public MessageObject getNameAll(@PathVariable String subjectid){
+        mo = new MessageObject();
+        try {
+            String nameAll = subjectManager.getNameAll(subjectid);
+            mo.setCode(SystemConfig.mess_succ);
+            mo.setMcontent(nameAll);
+        }catch (Exception ex){
+            mo.setCode(SystemConfig.mess_failed);
+            mo.setMdesc("查询错误");
+        }
+        return mo;
+    }
 
 }

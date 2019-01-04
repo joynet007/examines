@@ -60,6 +60,10 @@ public class SystemController {
                 return modelAndView;
             }
 
+            if(SystemConfig.mstatus_stop.equals(user.getMstatus())){
+                modelAndView.setViewName("index");
+                return modelAndView;
+            }
             session.setAttribute(SystemConfig.Session_key, user);
             modelAndView.setViewName("sys/main");
             return modelAndView;

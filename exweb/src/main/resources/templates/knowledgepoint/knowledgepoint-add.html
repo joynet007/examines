@@ -1,12 +1,17 @@
 <form id="knowledgepointAddForm" method="post" action= "/knowledgepoint/save" >
     <table>
         <tr>
+            <td><span id="kl_allname" style="font-weight: bolder;">--</span>
+                <input id="kl_subjectid" type="text" name="subjectid" style="display: none" value=""></input></td>
+
+        </tr>
+        <tr>
             <td>标题：</td>
         </tr>
         <tr>
             <td >
             <input class="easyui-validatebox" type="text" name="mtitle" data-options="required:true" style="width:600px" value=""></input>
-            <input id="subjectid" type="text" name="subjectid" style="display: none" value=""></input>
+
             </td>
         </tr>
 
@@ -34,9 +39,21 @@
             upImgUrl:"/web/choicequestion/upload",
             upImgExt:"jpg,jpeg,gif,png",html5Upload : false});
 
-        $("#subjectid").val($("#cc1_list").combobox("getValue"));
-        var subjectid =  $("#cc1_list").combobox("getValue");
+        var subjectID = $("#kl_cc3_list").combobox("getValue");
+        $("#kl_subjectid").val(subjectID);
 
+        var url = systemNamePath+'/subject/getNameAll/'+subjectID;
+        $.ajax({
+            url: url,
+            success: function (data) {
+
+                if(data.code == baseutil.mess_succ ){
+                    $("#kl_allname").text(data.mcontent);
+                }else {
+                    $.messager.alert('提示', obj.mdesc);
+                }
+            }
+        });
     });
 
 
@@ -44,7 +61,7 @@
         var mtitle=$("input[name=mtitle]");
         var explain=$('#explain');
 
-        var subjectid =  $("#cc1_list").combobox("getValue");
+        var subjectid =  $("#kl_cc3_list").combobox("getValue");
         if(subjectid == null || subjectid == '')
         {
             $.messager.alert('提示','科目编码不能为空！');

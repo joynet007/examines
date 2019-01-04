@@ -13,7 +13,7 @@ var knowledgepoint = {};
 
 knowledgepoint.add = function(id){
 
-    var subjectid =  $("#cc1_list").combobox("getValue");
+    var subjectid =  $("#kl_cc1_list").combobox("getValue");
     if(subjectid == '' || subjectid == undefined){
         $.messager.alert('提示',"请先选择科目！");
         return;
