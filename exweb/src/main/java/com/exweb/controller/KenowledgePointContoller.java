@@ -121,6 +121,7 @@ public class KenowledgePointContoller {
     public long selectallcount(@RequestParam  String subjectid){
 
         long k = knowledgepointManager.selectallcount(subjectid);
+        System.out.println("kkk=== 的个数"+k);
 
         return k;
     }

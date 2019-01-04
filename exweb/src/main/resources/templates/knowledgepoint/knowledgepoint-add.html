@@ -1,7 +1,7 @@
 <form id="knowledgepointAddForm" method="post" action= "/knowledgepoint/save" >
     <table>
         <tr>
-            <td><span id="kl_allname" style="font-weight: bolder;">--</span>
+            <td><span id="kl_allname" style="font-weight: bolder;text-align: center;">--</span>
                 <input id="kl_subjectid" type="text" name="subjectid" style="display: none" value=""></input></td>
 
         </tr>
@@ -39,14 +39,21 @@
             upImgUrl:"/web/choicequestion/upload",
             upImgExt:"jpg,jpeg,gif,png",html5Upload : false});
 
+        //设置编码
         var subjectID = $("#kl_cc3_list").combobox("getValue");
         $("#kl_subjectid").val(subjectID);
 
+
+        //设置显示的 级联 科目
+        subjectName(subjectID);
+    });
+
+    function subjectName(subjectID){
+        //设置显示的 级联 科目
         var url = systemNamePath+'/subject/getNameAll/'+subjectID;
         $.ajax({
             url: url,
             success: function (data) {
-
                 if(data.code == baseutil.mess_succ ){
                     $("#kl_allname").text(data.mcontent);
                 }else {
@@ -54,9 +61,10 @@
                 }
             }
         });
-    });
+    }
 
 
+    //提交表单
     function submitForm(){
         var mtitle=$("input[name=mtitle]");
         var explain=$('#explain');
@@ -93,7 +101,7 @@
                     $("#knowledgepoint_win_add").dialog('destroy');
 
                     //刷新分页
-                    knowledgepoint.dopageload(subjectid);
+                    knowledgepoint.tableload();
 
                 }else{
                     $.messager.alert('提示',obj.mdesc);

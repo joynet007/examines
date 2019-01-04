@@ -38,20 +38,23 @@ knowledgepoint.add = function(id){
 /**
  * 新增成功后的 载入页面
  *   在用户选择科目的时候重新显示分页（需要重新计算总条数、总页数）
- *
+ * 查询
  */
-knowledgepoint.dopageload=function(sjid){
-    if(sjid == '' || sjid == null){
-        $('#knowledgepointlist').datagrid('load');
-    }else{
-        var countPath = systemNamePath+"/knowledgepoint/selectallcount?subjectid="+sjid;
-        $('#knowledgepointlist').datagrid('load',{
-            pageNumber: 1,
-            pageSize: 20,
-            subjectid: sjid
-        });
-        pageutil.pagination_Knowledgepoint(countPath,'knowledgepoint_pagination','knowledgepointlist', sjid);
+knowledgepoint.tableload = function(){
+    var sublevel3 =  $("#kl_cc3_list").combobox("getValue");
+    if(sublevel3 == '' || sublevel3== null){
+        sublevel3="";
     }
+    //查询总条数的url
+    var countPath = systemNamePath+"/knowledgepoint/selectallcount?subjectid="+sublevel3;
+    //分页单独的一个分页类
+    $('#knowledgepointlist').datagrid('load',{
+        pageNumber: 1,
+        pageSize: 20,
+        subjectid: sublevel3
+    });
+
+    pageutil.pagination_Knowledgepoint(countPath,'knowledgepoint_pagination','knowledgepointlist', sublevel3);
 };
 
 /**
@@ -85,7 +88,7 @@ knowledgepoint.del = function(){
                     url: url,
                     success: function (data) {
                         if (data.code == baseutil.mess_succ) {
-                            knowledgepoint.dopageload();
+                            knowledgepoint.tableload();
                         } else {
                             $.messager.alert('提示', obj.mdesc);
                         }

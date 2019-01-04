@@ -119,4 +119,3 @@ pageutil.pagination_Knowledgepoint = function( allcountPath, page_pagination , p
     }});
 
 }
-
